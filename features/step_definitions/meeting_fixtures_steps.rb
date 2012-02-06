@@ -1,12 +1,12 @@
-Given /^a (past meeting|meeting) exists with the title "([^"]*)"$/ do |selector, title|
-  date = case selector
-           when 'meeting'       then today
-           when 'past meeting'  then yesterday
-         end
+Given /^meetings with those properties:$/ do |table|
+  # table is a | meeting 0 |pending
   @meeting_manager ||= MeetingManager.new
-  @meeting_fixture = @meeting_manager.create_meeting(:title => title, :date => date)
+  table.hashes.each do |row|
+    title = row[:title]
+    date  = row[:when]=='today' ? today : yesterday
+    @meeting_fixture = @meeting_manager.create_meeting(:title => title, :date => date)
+  end
 end
-
 
 When /^I request the last meeting$/ do
   @meeting = @meeting_manager.get_meeting

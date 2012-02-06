@@ -14,9 +14,11 @@ Feature: fetching 1 meeting
 
   Background:
     Given today is 2011-02-14
-    Given a past meeting exists with the title "meeting 0"
-    Given a meeting exists with the title "meeting 1"
-    Given a meeting exists with the title "meeting 2"
+    Given meetings with those properties:
+        | title     |     when     |
+        | meeting 0 |    yesterday |
+        | meeting 1 |        today |
+        | meeting 2 |        today |
 
   Scenario: fetching 1 meeting
     When I request the last meeting
