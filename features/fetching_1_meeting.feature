@@ -11,7 +11,9 @@ Feature: fetching 1 meeting
   As a
   I want
 
+
   Background:
+    Given today is 2011-02-14
     Given a past meeting exists with the title "meeting 0"
     Given a meeting exists with the title "meeting 1"
     Given a meeting exists with the title "meeting 2"

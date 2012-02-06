@@ -1,37 +1,3 @@
-Given /^a meeting exists with the title "([^"]*)"$/ do |title|
-  @meeting_manager ||= MeetingManager.new
-  @meeting_fixture = @meeting_manager.create_meeting(:title => title, :date => Date.today)
-end
-
-Given /^a past meeting exists with the title "([^"]*)"$/ do |title|
-  @meeting_manager ||= MeetingManager.new
-  @meeting_fixture = @meeting_manager.create_meeting(:title => title, :date => Date.today-1)
-end
-
-def the_meetings
-  @meetings || @meeting_manager.get_meetings
-end
-
-def the_meeting
-  @meeting || the_meetings.first
-end
-
-When /^I request the last meeting$/ do
-  @meeting = @meeting_manager.get_meeting
-end
-
-When /^I request all the meetings$/ do
-  @meetings = @meeting_manager.get_meetings
-end
-
-When /^I request all the ([^"]*) meetings$/ do |selector|
-  @meetings = case selector
-    when 'past'     then @meeting_manager.get_past_meetings
-    when 'current'  then @meeting_manager.get_current_meetings
-  end
-end
-
-
 Then /^I obtain the last meeting$/ do
   the_meeting.should == the_meetings.last
 end
@@ -61,8 +27,8 @@ end
 
 When /^the meeting date is\s+([^"]*)$/ do |date_selector|
   expected_date = case date_selector
-    when 'today'      then Date.today
-    when 'yesterday'  then Date.today-1
+    when 'today'      then today
+    when 'yesterday'  then yesterday
   end
   the_meeting.date.should == expected_date
 end
