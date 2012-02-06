@@ -1,6 +1,10 @@
 Given /^today is ([^"]*)$/ do |date|
-  Timecop.freeze Time.new(date).to_date.to_time
+  @today_date = Time.new(date).to_date
+  Timecop.freeze @today_date.to_time
 end
 
-def today    ; Date.today   end
-def yesterday; Date.today-1 end
+def when_to_date(today_or_yesterday)
+  today_or_yesterday=='today' ?
+      @today_date :
+      @today_date-1
+end

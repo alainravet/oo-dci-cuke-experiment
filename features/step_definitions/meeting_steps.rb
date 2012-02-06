@@ -19,6 +19,5 @@ end
 
 
 When /^the meeting date is\s+(today|yesterday)$/ do |today_or_yesterday|
-  expected_date = today_or_yesterday=='today' ? today : yesterday
-  the_meeting.date.should == expected_date
+  the_meeting.date.should == when_to_date(today_or_yesterday)
 end

@@ -2,7 +2,7 @@ Given /^meetings with those properties:$/ do |table|
   @objects_manager ||= ObjectsManager.new
   table.hashes.each do |row|
     title = row[:title]
-    date  = row[:when]=='today' ? today : yesterday
+    date  = when_to_date(row[:when])
     @meeting_fixture = @objects_manager.create_meeting(:title => title, :date => date)
   end
 end
