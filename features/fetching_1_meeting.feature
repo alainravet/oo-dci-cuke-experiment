@@ -18,7 +18,7 @@ Feature: fetching 1 meeting
 
   Scenario: fetching 1 meeting
     When I request the last meeting
-    Then I obtain the meeting
+    Then I obtain the last meeting
      And the meeting title is "meeting 2"
      And the meeting date is today
      And the meeting has no attendees

@@ -9,7 +9,7 @@ Given /^a past meeting exists with the title "([^"]*)"$/ do |title|
 end
 
 def the_meetings
-  @meetings
+  @meetings || @meeting_manager.get_meetings
 end
 
 def the_meeting
@@ -24,16 +24,16 @@ When /^I request all the meetings$/ do
   @meetings = @meeting_manager.get_meetings
 end
 
-When /^I request all the past meetings$/ do
-  @meetings = @meeting_manager.get_past_meetings
+When /^I request all the ([^"]*) meetings$/ do |selector|
+  @meetings = case selector
+    when 'past'     then @meeting_manager.get_past_meetings
+    when 'current'  then @meeting_manager.get_current_meetings
+  end
 end
 
-When /^I request all the current meetings$/ do
-  @meetings = @meeting_manager.get_current_meetings
-end
 
-Then /^I obtain the meeting$/ do
-  the_meeting.should == @meeting_fixture
+Then /^I obtain the last meeting$/ do
+  the_meeting.should == the_meetings.last
 end
 
 Then /^I obtain (\d+) meeting[s]?$/ do |size|
@@ -45,25 +45,24 @@ When /^the meeting title is "([^"]*)"$/ do |expected_title|
   the_meeting.title.should == expected_title
 end
 
-When /^the meeting has no attendees$/ do
-  the_meeting.should have(0).attendees
+When /^the meeting has no\s+([^"]*)$/ do |assoc|
+  the_meeting.send(assoc.to_sym).should be_empty
 end
 
-When /^the meeting has no talks$/ do
-  the_meeting.should have(0).talks
+
+When /^the\s+([^"]*)\s+meeting title is\s+"([^"]*)"$/ do |meeting_selector, expected_title|
+  m = case meeting_selector
+        when 'first'  then the_meetings.first
+        when 'last'   then the_meetings.last
+      end
+  m.title.should == expected_title
 end
 
-When /^the first meeting title is\s+"([^"]*)"$/ do |expected_title|
-  the_meetings.first.title.should == expected_title
-end
 
-When /^the last meeting title is\s+"([^"]*)"$/ do |expected_title|
-  the_meetings.last.title.should == expected_title
-end
-
-When /^the meeting date is today$/ do
-  the_meeting.date.should == Date.today
-end
-When /^the meeting date is yesterday$/ do
-  the_meeting.date.should == Date.today-1
+When /^the meeting date is\s+([^"]*)$/ do |date_selector|
+  expected_date = case date_selector
+    when 'today'      then Date.today
+    when 'yesterday'  then Date.today-1
+  end
+  the_meeting.date.should == expected_date
 end
