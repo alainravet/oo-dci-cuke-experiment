@@ -1,7 +1,3 @@
-Then /^I obtain the last meeting$/ do
-  the_meeting.should == the_meetings.last
-end
-
 Then /^I obtain (\d+) meeting[s]?$/ do |size|
   the_meetings.length.should == size.to_i
 end
@@ -11,24 +7,18 @@ When /^the meeting title is "([^"]*)"$/ do |expected_title|
   the_meeting.title.should == expected_title
 end
 
-When /^the meeting has no\s+([^"]*)$/ do |assoc|
-  the_meeting.send(assoc.to_sym).should be_empty
+When /^the meeting has no\s+(attendees|talks)$/ do |assoc|
+  the_meeting.send(assoc).should be_empty
 end
 
 
-When /^the\s+([^"]*)\s+meeting title is\s+"([^"]*)"$/ do |meeting_selector, expected_title|
-  m = case meeting_selector
-        when 'first'  then the_meetings.first
-        when 'last'   then the_meetings.last
-      end
+When /^the\s+(first|last)\s+meeting title is\s+"([^"]*)"$/ do |first_or_last, expected_title|
+  m = the_meetings.send(first_or_last)
   m.title.should == expected_title
 end
 
 
-When /^the meeting date is\s+([^"]*)$/ do |date_selector|
-  expected_date = case date_selector
-    when 'today'      then today
-    when 'yesterday'  then yesterday
-  end
+When /^the meeting date is\s+(today|yesterday)$/ do |today_or_yesterday|
+  expected_date = today_or_yesterday=='today' ? today : yesterday
   the_meeting.date.should == expected_date
 end
