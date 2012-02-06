@@ -20,6 +20,7 @@ Feature: fetching 1 meeting
         | meeting 1 |        today |
         | meeting 2 |        today |
 
+
   Scenario: fetching 1 meeting
     When I request the last meeting
      And the meeting title is "meeting 2"
@@ -28,20 +29,29 @@ Feature: fetching 1 meeting
      And the meeting has no talks
 
 
+
   Scenario: fetching all the meetings
     When I request all the meetings
     Then I obtain 3 meetings
-    And the first meeting title is "meeting 0"
-    And the last meeting title is  "meeting 2"
+    And the meetings have those properties:
+        | title     |     when     |
+        | meeting 0 |    yesterday |
+        | meeting 1 |        today |
+        | meeting 2 |        today |
+
 
   Scenario: fetching all the past meetings
     When I request all the past meetings
-    Then I obtain 1 meetings
-    And the meeting title is "meeting 0"
-    And the meeting date is yesterday
+    Then I obtain 1 meeting
+    And the meeting has those properties:
+        | title     |     when     |
+        | meeting 0 |    yesterday |
+
 
   Scenario: fetching all the current meetings
     When I request all the current meetings
     Then I obtain 2 meetings
-    And the first meeting title is "meeting 1"
-    And the last meeting title is  "meeting 2"
+    And the meetings have those properties:
+        | title     |     when     |
+        | meeting 1 |        today |
+        | meeting 2 |        today |

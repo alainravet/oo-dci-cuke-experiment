@@ -21,3 +21,20 @@ end
 When /^the meeting date is\s+(today|yesterday)$/ do |today_or_yesterday|
   the_meeting.date.should == when_to_date(today_or_yesterday)
 end
+
+When /^the meetings? (?:has|have) those properties:$/ do |table|
+  unless the_meetings.length == table.hashes.length
+    fail "wrong number of meetings : got #{table.hashes.length} but expected #{the_meetings.length}"
+  end
+  the_meetings.each_with_index do |m, i|
+    hash = table.hashes[i]
+    hash.keys.each do |k|
+      expected_value = k=='when' ? when_to_date(hash[k]) : hash[k]
+      if k=='when'
+        m.date.should == when_to_date(hash[k])
+      else
+        m.send(k).should == hash[k]
+      end
+    end
+  end
+end
