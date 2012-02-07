@@ -1,5 +1,4 @@
 Given /^meetings with those properties:$/ do |table|
-  @objects_manager ||= ObjectsManager.new
   table.hashes.each do |row|
     title = row[:title]
     date  = when_to_date(row[:when])
