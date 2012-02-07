@@ -15,26 +15,17 @@ Feature: Retrieving 1 or many meetings
 
   Background:
     Given meetings with those properties:
-        | title     |     when     |
+        | title     |    _date_    |
         | meeting 0 |    yesterday |
         | meeting 1 |        today |
         | meeting 2 |     tomorrow |
 
 
-  Scenario: fetching 1 meeting
-    When I request the last meeting
-     And the meeting title is "meeting 2"
-     And the meeting date is tomorrow
-     And the meeting has no attendees
-     And the meeting has no talks
-
-
-
   Scenario: fetching all the meetings
     When I request all the meetings
     Then I obtain 3 meetings
-    And the meetings have those properties:
-        | title     |     when     |
+    And their properties are:
+        | title     |      _date_  |
         | meeting 0 |    yesterday |
         | meeting 1 |        today |
         | meeting 2 |     tomorrow |
@@ -43,22 +34,22 @@ Feature: Retrieving 1 or many meetings
   Scenario: fetching all the past meetings
     When I request all the past meetings
     Then I obtain 1 meeting
-    And the meeting has those properties:
-        | title     |     when     |
+    And their properties are:
+        | title     |     _date_   |
         | meeting 0 |    yesterday |
 
 
   Scenario: fetching all the current meetings
     When I request all the current meetings
     Then I obtain 2 meetings
-    And the meetings have those properties:
-        | title     |     when     |
+    And their properties are:
+        | title     |     _date_   |
         | meeting 1 |        today |
         | meeting 2 |     tomorrow |
 
   Scenario: fetching all the future meetings
     When I request all the future meetings
     Then I obtain 1 meeting
-    And the meetings have those properties:
-        | title     |     when     |
+    And their properties are:
+        | title     |     _date_   |
         | meeting 2 |     tomorrow |

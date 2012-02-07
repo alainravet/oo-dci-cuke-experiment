@@ -11,7 +11,7 @@ Feature: creating meetings
 
   Scenario Outline: creating a meeting
     When I try to create a meeting with <title>, <location>, and <date>
-    Then the created meeting is <Valid or Invalid>
+    Then it is <Valid or Invalid>
 
     Examples: Success
       | title     | location   | date   | Valid or Invalid |

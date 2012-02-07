@@ -1,17 +1,15 @@
 Given /^meetings with those properties:$/ do |table|
   table.hashes.each do |row|
-    title = row[:title]
-    date  = when_to_date(row[:when])
-    @meeting_fixture = @objects_manager.create_meeting(:title => title, :date => date)
+    row.keys.select{|k| k=~/^_.+_$/}.each do |raw_key|
+      key = raw_key[/_(.+)_/,1].to_sym    # _date_ -> :date
+      row[key] = when_to_date(row.delete(raw_key))
+    end
+    @objects_manager.create_meeting(row)
   end
 end
 
-When /^I request the last meeting$/ do
-  @meeting = @objects_manager.get_meeting
-end
-
 When /^I request (all the|all the current|all the past|all the future) meetings$/ do |current_or_past|
-  @meetings = case current_or_past
+  @they = @meetings = case current_or_past
     when 'all the'          then @objects_manager.get_meetings
     when 'all the past'     then @objects_manager.get_past_meetings
     when 'all the current'  then @objects_manager.get_current_meetings
