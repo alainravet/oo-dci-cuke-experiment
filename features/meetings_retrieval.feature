@@ -14,7 +14,6 @@ Feature: Retrieving 1 or many meetings
 
 
   Background:
-    Given today is 2011-02-14
     Given meetings with those properties:
         | title     |     when     |
         | meeting 0 |    yesterday |

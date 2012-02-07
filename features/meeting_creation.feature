@@ -4,7 +4,6 @@ Feature: creating meetings
   I want
 
   Background:
-    Given today is 2011-02-14
     Given meetings with those properties:
         | title     |     when     |
         | meeting 0 |    yesterday |
@@ -20,8 +19,9 @@ Feature: creating meetings
       | meeting 1 |            | today  |            valid |
       | meeting 1 |            |        |            valid |
 
-    Examples: Invalid title
+    Examples: Invalid titles
       A meeting title must be :present and :unique
       | title     | location   | date   | Valid or Invalid |
       |           | Bruxelles  | today  |          invalid |
       | meeting 0 | Bruxelles  | today  |          invalid |
+
