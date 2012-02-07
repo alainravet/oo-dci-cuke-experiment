@@ -20,6 +20,11 @@ When /^I request (all the|all the current|all the past|all the future) meetings$
 end
 
 
+Given /^a meeting$/ do
+  @it = @meeting = @objects_manager.get_meetings.last
+  raise RuntimeError.new("Initialization error : no meeting found") if @meeting.nil?
+end
+
 def the_meetings
   @meetings || @objects_manager.get_meetings
 end

@@ -56,3 +56,7 @@ Then /^the created meeting is (.*)$/ do |valid_or_invalid|
   end
 
 end
+
+When /^I add a talk to it$/ do
+  @objects_manager.create_talk(@it)
+end

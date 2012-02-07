@@ -41,6 +41,12 @@ class ObjectsManager
     nil
   end
 
+  def create_talk(meeting)
+    Meeting::Talk.new.tap do |talk|
+      meeting.talks << talk
+    end
+  end
+
 private
   def find_meeting_by_title(title)
     @meetings.detect{|m| m.title == title}
