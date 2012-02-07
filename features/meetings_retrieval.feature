@@ -1,4 +1,5 @@
-Feature: fetching 1 meeting
+Feature: Retrieving 1 or many meetings
+
   The Meeting is the core concept of the Arrrrug application.
   A meeting has at least a date and a location.
   Once a meeting is scheduled, future attendees can register for it and talks
