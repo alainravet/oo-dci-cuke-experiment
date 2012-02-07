@@ -7,3 +7,7 @@ Before do
   Timecop.freeze @today_date.to_time
   @objects_manager = ObjectsManager.new
 end
+
+Transform /^-?(no|\d+)$/ do |number|
+  number.to_i
+end

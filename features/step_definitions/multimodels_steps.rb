@@ -1,15 +1,10 @@
-def less_outer_dquotes(expected_value)
-  expected_value[/^(")?([^"]+)(")?$/, 2]
-end
-
-
 # Setup :
 #------------
 
 
 When /^it has (\d+) (\w+)s?$/ do |size, assoc|
   assoc << 's' unless assoc.end_with?('s')      # talk -> talks
-  @it.send("#{assoc}").size.should == size.to_i
+  @it.send("#{assoc}").size.should == size
 end
 
 
@@ -21,7 +16,7 @@ end
 # Ex: Then I obtain 3 meetings
 Then /^I obtain (no|\d+) (\w+)s?$/ do |expected_size, base_models|
   base_models << 's' unless base_models.end_with?('s')      # talk -> talks
-  eval("@#{base_models}.length").should == expected_size.to_i
+  eval("@#{base_models}.length").should == expected_size
 end
 
 
@@ -29,23 +24,22 @@ end
 # Ex: Then the meeting has 1 talk
 Then /^the (\w+) has (no|\d+) (\w+)s$/ do |base_model, expected_size, assoc|
   assoc << 's' unless assoc.end_with?('s')      # talk -> talks
-  eval("@#{base_model}.send(:#{assoc}).length").should == expected_size.to_i
+  eval("@#{base_model}.send(:#{assoc}).length").should == expected_size
 end
 
 
 # Ex: Then its title is "meeting 2"
 # Ex: Then its date  is tomorrow
 Then /^its (\w+)\s+is (.*)$/ do |property, expected_value|
-  expected  = less_outer_dquotes(expected_value)
   if %w(date).include?(property)
-    expected = when_to_date(expected)
+    expected = when_to_date(expected_value)
   end
-  @it.send(property).should == expected
+  @it.send(property).should == expected_value
 
 end
 
 
-Then /^it is (.*)$/ do |valid_or_invalid|
+Then /^it is (valid|invalid)$/ do |valid_or_invalid|
   if valid_or_invalid=='valid' && @it.nil?
     fail 'the object could not created'
   elsif valid_or_invalid=='invalid' && @it
