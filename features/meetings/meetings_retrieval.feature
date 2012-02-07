@@ -15,10 +15,11 @@ Feature: Retrieving 1 or many meetings
 
   Background:
     Given meetings with those properties:
-        | title     |    _date_    | location |
-        | meeting 0 |    yesterday |   London |
-        | meeting 1 |        today |    Paris |
-        | meeting 2 |     tomorrow | Brussels |
+        | title     |    _date_    | location | hidden |
+        | meeting 0 |    yesterday |   London |  false |
+        | meeting 1 |        today |    Paris |  false |
+        | meeting 2 |     tomorrow | Brussels |  false |
+        | meeting 3 |     tomorrow | Brussels |   true |
 
 
   Scenario: fetching all the meetings

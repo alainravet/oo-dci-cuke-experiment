@@ -13,19 +13,19 @@ class ObjectsManager
   end
 
   def get_meetings
-    @meetings
+    @meetings.select(&:visible?)
   end
 
   def get_past_meetings
-    @meetings.select{|m| m.date < Date.today}
+    @meetings.select{|m| m.date < Date.today}.select(&:visible?)
   end
 
   def get_current_meetings
-    @meetings.select{|m| Date.today <=  m.date}
+    @meetings.select{|m| Date.today <=  m.date}.select(&:visible?)
   end
 
   def get_future_meetings
-    @meetings.select{|m| Date.today < m.date }
+    @meetings.select{|m| Date.today < m.date }.select(&:visible?)
   end
 
 #----------
