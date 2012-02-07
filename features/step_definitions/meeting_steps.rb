@@ -18,8 +18,8 @@ When /^the\s+(first|last)\s+meeting title is\s+"([^"]*)"$/ do |first_or_last, ex
 end
 
 
-When /^the meeting date is\s+(today|yesterday)$/ do |today_or_yesterday|
-  the_meeting.date.should == when_to_date(today_or_yesterday)
+When /^the meeting date is\s+(yesterday|today|tomorrow)$/ do |relative_day|
+  the_meeting.date.should == when_to_date(relative_day)
 end
 
 When /^the meetings? (?:has|have) those properties:$/ do |table|

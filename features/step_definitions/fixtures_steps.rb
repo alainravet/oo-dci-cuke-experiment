@@ -10,11 +10,12 @@ When /^I request the last meeting$/ do
   @meeting = @objects_manager.get_meeting
 end
 
-When /^I request (all the|all the current|all the past) meetings$/ do |current_or_past|
+When /^I request (all the|all the current|all the past|all the future) meetings$/ do |current_or_past|
   @meetings = case current_or_past
     when 'all the'          then @objects_manager.get_meetings
     when 'all the past'     then @objects_manager.get_past_meetings
     when 'all the current'  then @objects_manager.get_current_meetings
+    when 'all the future'   then @objects_manager.get_future_meetings
   end
 end
 

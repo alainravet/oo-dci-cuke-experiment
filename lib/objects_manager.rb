@@ -24,6 +24,12 @@ class ObjectsManager
     @meetings.select{|m| Date.today <=  m.date}
   end
 
+  def get_future_meetings
+    @meetings.select{|m| Date.today < m.date }
+  end
+
+#----------
+
   def create_meeting(params)
     if find_meeting_by_title(params[:title])
       raise CreationError.new('the title must be unique')
