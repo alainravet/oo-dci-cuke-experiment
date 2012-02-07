@@ -38,3 +38,21 @@ When /^the meetings? (?:has|have) those properties:$/ do |table|
     end
   end
 end
+
+When /^I try to create a meeting with (.*), (.*), and (.*)$/ do |title, location, when_|
+  @new_meeting = @objects_manager.create_meeting(
+      :title    => title,
+      :location => location,
+      :date     => when_to_date(when_)
+  )
+end
+
+Then /^the created meeting is (.*)$/ do |valid_or_invalid|
+  case valid_or_invalid
+    when 'valid'
+      fail 'the meeting could not created' if @new_meeting.nil?
+    when 'invalid'
+      fail "the meeting should not have been created #{@new_meeting.inspect}" if @new_meeting
+  end
+
+end

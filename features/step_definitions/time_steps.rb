@@ -4,7 +4,8 @@ Given /^today is ([^"]*)$/ do |date|
 end
 
 def when_to_date(today_or_yesterday)
-  today_or_yesterday=='today' ?
-      @today_date :
-      @today_date-1
+  case today_or_yesterday
+    when 'today'      then @today_date
+    when 'yesterday'  then @today_date-1
+  end
 end

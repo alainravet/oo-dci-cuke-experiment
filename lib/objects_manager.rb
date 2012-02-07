@@ -1,6 +1,9 @@
 require_relative 'meeting'
 
 class ObjectsManager
+
+  class CreationError < RuntimeError ; end
+
   def initialize
     @meetings = []
   end
@@ -22,9 +25,18 @@ class ObjectsManager
   end
 
   def create_meeting(params)
+    if find_meeting_by_title(params[:title])
+      raise CreationError.new('the title must be unique')
+    end
     Meeting.new(params).tap do |m|
       @meetings << m
     end
+  rescue CreationError
+    nil
   end
 
+private
+  def find_meeting_by_title(title)
+    @meetings.detect{|m| m.title == title}
+  end
 end
