@@ -5,12 +5,12 @@ Feature: Creating talks
 
   Background:
     Given meetings with those properties:
-        | title     |     when     |
+        | title     |     _date_   |
         | meeting 0 |    yesterday |
         | meeting 1 |        today |
         | meeting 2 |     tomorrow |
 
-  Scenario: adding the 1st Talk to a Meeting
+  Scenario: adding the 1st Talks to a Meeting
     Given a meeting
        * it has 0 talks
     When I add a talk to it

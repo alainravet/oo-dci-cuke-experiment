@@ -69,3 +69,26 @@ Then /^their properties are:$/ do |table|
     end
   end
 end
+
+Then /^it is (hidden|visible|not visible)$/ do |flag|
+  flag=='visible' ?
+    @it.should(be_visible) :
+    @it.should_not(be_visible)
+end
+
+When /^it is\s+(\w+),(.+)$/ do | arg0, args|
+  requirements = "#{arg0},#{args}".split(/,\s*/)
+  requirements.each do |req|
+    if %w(valid invalid).include?(req)
+      step "it is #{req}"
+
+    elsif @it.respond_to?(req)
+      fail "the record should be #{req}" unless @it.send(req)
+    elsif @it.respond_to?("#{req}?")
+      fail "the record should be #{req}" unless @it.send("#{req}?")
+    else
+      raise RuntimeError.new("unknown property : #{req} for #{@it.inspect}")
+    end
+  end
+
+end

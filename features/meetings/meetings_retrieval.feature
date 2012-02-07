@@ -15,20 +15,20 @@ Feature: Retrieving 1 or many meetings
 
   Background:
     Given meetings with those properties:
-        | title     |    _date_    |
-        | meeting 0 |    yesterday |
-        | meeting 1 |        today |
-        | meeting 2 |     tomorrow |
+        | title     |    _date_    | location |
+        | meeting 0 |    yesterday |   London |
+        | meeting 1 |        today |    Paris |
+        | meeting 2 |     tomorrow | Brussels |
 
 
   Scenario: fetching all the meetings
     When I request all the meetings
     Then I obtain 3 meetings
     And their properties are:
-        | title     |      _date_  |
-        | meeting 0 |    yesterday |
-        | meeting 1 |        today |
-        | meeting 2 |     tomorrow |
+        | title     |      _date_  | location |
+        | meeting 0 |    yesterday |   London |
+        | meeting 1 |        today |    Paris |
+        | meeting 2 |     tomorrow | Brussels |
 
 
   Scenario: fetching all the past meetings

@@ -1,10 +1,11 @@
+Given /^a meeting with those properties:$/ do |table|
+  row = table.hashes.first
+  @it = create_meeting_from_params(row)
+end
+
 Given /^meetings with those properties:$/ do |table|
   table.hashes.each do |row|
-    row.keys.select{|k| k=~/^_.+_$/}.each do |raw_key|
-      key = raw_key[/_(.+)_/,1].to_sym    # _date_ -> :date
-      row[key] = when_to_date(row.delete(raw_key))
-    end
-    @objects_manager.create_meeting(row)
+    create_meeting_from_params(row)
   end
 end
 
@@ -30,3 +31,13 @@ end
 def the_meeting
   @meeting || the_meetings.first
 end
+
+private
+
+  def create_meeting_from_params(row)
+    row.keys.select { |k| k=~/^_.+_$/ }.each do |raw_key|
+      key = raw_key[/_(.+)_/, 1].to_sym # _date_ -> :date
+      row[key] = when_to_date(row.delete(raw_key))
+    end
+    @objects_manager.create_meeting(row)
+  end
