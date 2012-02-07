@@ -1,4 +1,6 @@
-class MeetingManager
+require_relative 'meeting'
+
+class ObjectsManager
   def initialize
     @meetings = []
   end

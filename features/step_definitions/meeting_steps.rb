@@ -1,41 +1,3 @@
-Given /^a meeting exists with the title "([^"]*)"$/ do |title|
-  @meeting_manager ||= MeetingManager.new
-  @meeting_fixture = @meeting_manager.create_meeting(:title => title, :date => Date.today)
-end
-
-Given /^a past meeting exists with the title "([^"]*)"$/ do |title|
-  @meeting_manager ||= MeetingManager.new
-  @meeting_fixture = @meeting_manager.create_meeting(:title => title, :date => Date.today-1)
-end
-
-def the_meetings
-  @meetings
-end
-
-def the_meeting
-  @meeting || the_meetings.first
-end
-
-When /^I request the last meeting$/ do
-  @meeting = @meeting_manager.get_meeting
-end
-
-When /^I request all the meetings$/ do
-  @meetings = @meeting_manager.get_meetings
-end
-
-When /^I request all the past meetings$/ do
-  @meetings = @meeting_manager.get_past_meetings
-end
-
-When /^I request all the current meetings$/ do
-  @meetings = @meeting_manager.get_current_meetings
-end
-
-Then /^I obtain the meeting$/ do
-  the_meeting.should == @meeting_fixture
-end
-
 Then /^I obtain (\d+) meeting[s]?$/ do |size|
   the_meetings.length.should == size.to_i
 end
@@ -45,25 +7,34 @@ When /^the meeting title is "([^"]*)"$/ do |expected_title|
   the_meeting.title.should == expected_title
 end
 
-When /^the meeting has no attendees$/ do
-  the_meeting.should have(0).attendees
+When /^the meeting has no\s+(attendees|talks)$/ do |assoc|
+  the_meeting.send(assoc).should be_empty
 end
 
-When /^the meeting has no talks$/ do
-  the_meeting.should have(0).talks
+
+When /^the\s+(first|last)\s+meeting title is\s+"([^"]*)"$/ do |first_or_last, expected_title|
+  m = the_meetings.send(first_or_last)
+  m.title.should == expected_title
 end
 
-When /^the first meeting title is\s+"([^"]*)"$/ do |expected_title|
-  the_meetings.first.title.should == expected_title
+
+When /^the meeting date is\s+(today|yesterday)$/ do |today_or_yesterday|
+  the_meeting.date.should == when_to_date(today_or_yesterday)
 end
 
-When /^the last meeting title is\s+"([^"]*)"$/ do |expected_title|
-  the_meetings.last.title.should == expected_title
-end
-
-When /^the meeting date is today$/ do
-  the_meeting.date.should == Date.today
-end
-When /^the meeting date is yesterday$/ do
-  the_meeting.date.should == Date.today-1
+When /^the meetings? (?:has|have) those properties:$/ do |table|
+  unless the_meetings.length == table.hashes.length
+    fail "wrong number of meetings : got #{table.hashes.length} but expected #{the_meetings.length}"
+  end
+  the_meetings.each_with_index do |m, i|
+    hash = table.hashes[i]
+    hash.keys.each do |k|
+      expected_value = k=='when' ? when_to_date(hash[k]) : hash[k]
+      if k=='when'
+        m.date.should == when_to_date(hash[k])
+      else
+        m.send(k).should == hash[k]
+      end
+    end
+  end
 end

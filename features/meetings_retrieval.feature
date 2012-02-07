@@ -1,4 +1,5 @@
-Feature: fetching 1 meeting
+Feature: Retrieving 1 or many meetings
+
   The Meeting is the core concept of the Arrrrug application.
   A meeting has at least a date and a location.
   Once a meeting is scheduled, future attendees can register for it and talks
@@ -11,34 +12,47 @@ Feature: fetching 1 meeting
   As a
   I want
 
+
   Background:
-    Given a past meeting exists with the title "meeting 0"
-    Given a meeting exists with the title "meeting 1"
-    Given a meeting exists with the title "meeting 2"
+    Given today is 2011-02-14
+    Given meetings with those properties:
+        | title     |     when     |
+        | meeting 0 |    yesterday |
+        | meeting 1 |        today |
+        | meeting 2 |        today |
+
 
   Scenario: fetching 1 meeting
     When I request the last meeting
-    Then I obtain the meeting
      And the meeting title is "meeting 2"
      And the meeting date is today
      And the meeting has no attendees
      And the meeting has no talks
 
 
+
   Scenario: fetching all the meetings
     When I request all the meetings
     Then I obtain 3 meetings
-    And the first meeting title is "meeting 0"
-    And the last meeting title is  "meeting 2"
+    And the meetings have those properties:
+        | title     |     when     |
+        | meeting 0 |    yesterday |
+        | meeting 1 |        today |
+        | meeting 2 |        today |
+
 
   Scenario: fetching all the past meetings
     When I request all the past meetings
-    Then I obtain 1 meetings
-    And the meeting title is "meeting 0"
-    And the meeting date is yesterday
+    Then I obtain 1 meeting
+    And the meeting has those properties:
+        | title     |     when     |
+        | meeting 0 |    yesterday |
+
 
   Scenario: fetching all the current meetings
     When I request all the current meetings
     Then I obtain 2 meetings
-    And the first meeting title is "meeting 1"
-    And the last meeting title is  "meeting 2"
+    And the meetings have those properties:
+        | title     |     when     |
+        | meeting 1 |        today |
+        | meeting 2 |        today |

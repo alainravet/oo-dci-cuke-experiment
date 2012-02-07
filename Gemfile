@@ -8,4 +8,5 @@ end
 group :test do
   gem 'cucumber'
   gem 'rspec-expectations'
+  gem 'timecop'
 end
