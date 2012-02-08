@@ -22,3 +22,7 @@ end
 Transform /^-?(no|\d+)$/ do |number|
   number.to_i
 end
+
+def current_user
+  $session_manager.current_user
+end

@@ -77,3 +77,20 @@ Feature: Retrieving 1 or many meetings
       | admin | 2    | "visible futu", "hidden futu"  |
       | plain | 1    | "visible futu"                 |
       |  anon | 1    | "visible futu"                 |
+
+
+# retrieving 1 Meeting
+
+  Scenario: retrieving 1 Meeting by title
+    Given I am not authenticated
+      And I select the meeting titled "visible futu"
+       * it was found
+       * it has no talks
+       * it is valid, visible
+       * its title is "visible futu"
+
+
+  Scenario: retrieving 1 Meeting by title X
+    Given I am not authenticated
+      And I select the meeting titled "<UNKNOWN TITLE>"
+    * it was not found

@@ -2,15 +2,18 @@
 #------------
 
 
-When /^it has (\d+) (\w+)s?$/ do |size, assoc|
-  assoc << 's' unless assoc.end_with?('s')      # talk -> talks
-  @it.send("#{assoc}").size.should == size
+# Tests :
+#------------
+
+When /^it was found$/ do
+  @it.should be
+end
+
+When /^it was not found$/ do
+  @it.should_not be
 end
 
 
-
-# Tests :
-#------------
 
 # Ex: Then I obtain no meeting
 # Ex: Then I obtain 3 meetings
@@ -37,6 +40,23 @@ Then /^the (\w+) has (no|\d+) (\w+)s$/ do |base_model, expected_size, assoc|
   eval("@#{base_model}.send(:#{assoc}).length").should == expected_size
 end
 
+# Ex: Then it has 1 talk
+# Ex: Then it has no attendees
+Then /^it has (no|\d+) (\w+)s?$/ do |size, assoc|
+  assoc << 's' unless assoc.end_with?('s')      # talk -> talks
+  @it.send("#{assoc}").size.should == size
+end
+
+# Ex: Then I have 1 attendance
+# Ex: Then I have no attendances
+Then /^I have (no|\d+) (\w+)s?$/ do |size, assoc|
+  user = current_user
+  assoc << 's' unless assoc.end_with?('s')      # talk -> talks
+  user.send("#{assoc}").size.should == size
+end
+
+
+
 
 # Ex: Then its title is "meeting 2"
 # Ex: Then its date  is tomorrow
@@ -44,7 +64,7 @@ Then /^its (\w+)\s+is (.*)$/ do |property, expected_value|
   if %w(date).include?(property)
     expected = when_to_date(expected_value)
   end
-  @it.send(property).should == expected_value
+  @it.send(property).should == expected_value.dequote
 
 end
 

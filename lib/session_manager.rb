@@ -3,10 +3,7 @@ class SessionManager
   attr_reader :current_user
 
   def login(user_name, user_password)
-    if user = $credentials_manager.authenticate(user_name, user_password)
-      @current_user = user
-    else
-    end
+    @current_user = Handler::Authenticator.new(@current_user).authenticate(user_name, user_password)
   end
 
   def logout

@@ -3,7 +3,7 @@
 #---------
 
 Given /^I am not authenticated$/ do
-  $session_manager.logout if $session_manager.current_user
+  $session_manager.logout if current_user
 end
 
 When /^I log in with valid :(plain|admin) user credentials$/ do |level|
@@ -38,17 +38,17 @@ end
 #---------
 
 Then /^nobody is logged in$/ do
-  $session_manager.current_user.should_not be
+  current_user.should_not be
 end
 
 Then /^somebody is logged in$/ do
-  $session_manager.current_user.should be
+  current_user.should be
 end
 
 Then /^(?:my|the current) user rights are :(admin|plain)$/ do |expected_rights|
   case expected_rights
-    when 'admin' then $session_manager.current_user.should     be_admin
-    when 'plain' then $session_manager.current_user.should_not be_admin
+    when 'admin' then current_user.should     be_admin
+    when 'plain' then current_user.should_not be_admin
     else
       fail "invalid rights #{expected_rights.to_sym.inspect}"
   end

@@ -1,4 +1,4 @@
 
 When /^I add a talk to it$/ do
-  $objects_manager.create_talk(@it)
+  Handler::TalkCreation.new(current_user).create(@it)
 end

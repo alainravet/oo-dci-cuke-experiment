@@ -17,25 +17,25 @@ end
 
 When /^I request (all the|all the current|all the past|all the future) meetings$/ do |current_or_past|
   @they = @meetings = case current_or_past
-    when 'all the'          then $objects_manager.get_meetings
-    when 'all the past'     then $objects_manager.get_past_meetings
-    when 'all the current'  then $objects_manager.get_current_meetings
-    when 'all the future'   then $objects_manager.get_future_meetings
+    when 'all the'          then Handler::Meeting::Retrieval.new(current_user).get_meetings
+    when 'all the past'     then Handler::Meeting::Retrieval.new($session_manager.current_user).get_past_meetings
+    when 'all the current'  then Handler::Meeting::Retrieval.new($session_manager.current_user).get_current_meetings
+    when 'all the future'   then Handler::Meeting::Retrieval.new($session_manager.current_user).get_future_meetings
   end
 end
 
 
 Given /^a meeting$/ do
-  @it = @meeting = $objects_manager.get_meetings.last
+  @it = @meeting = Handler::Meeting::Retrieval.new($session_manager.current_user).get_meetings.last
   raise RuntimeError.new("Initialization error : no meeting found") if @meeting.nil?
 end
 
 def the_meetings
-  @meetings || $objects_manager.get_meetings
+  @meetings
 end
 
 def the_meeting
-  @meeting || the_meetings.first
+  @meeting
 end
 
 private
@@ -45,7 +45,9 @@ private
       key = raw_key[/_(.+)_/, 1].to_sym # _date_ -> :date
       row[key] = when_to_date(row.delete(raw_key))
     end
-    $objects_manager.create_meeting(row)
+    Handler::Meeting::Creation.new(current_user).create(row)
+  rescue AuthorizationError
+    nil
   end
 
 
