@@ -6,4 +6,8 @@ class User
     @name, @password, @rights = name, password, rights
   end
 
+  def admin?
+    rights == :admin
+  end
+
 end

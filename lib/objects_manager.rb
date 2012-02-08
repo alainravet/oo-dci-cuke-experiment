@@ -13,19 +13,24 @@ class ObjectsManager
   end
 
   def get_meetings
-    @meetings.select(&:visible?)
+    $session_manager.current_user_admin? ?
+      @meetings :
+      @meetings.select(&:visible?)
   end
 
   def get_past_meetings
-    @meetings.select{|m| m.date < Date.today}.select(&:visible?)
+    criterion = lambda{|m| m.date < Date.today}
+    get_meetings_and_filter(criterion)
   end
 
   def get_current_meetings
-    @meetings.select{|m| Date.today <=  m.date}.select(&:visible?)
+    criterion = lambda{|m| Date.today <= m.date }
+    get_meetings_and_filter(criterion)
   end
 
   def get_future_meetings
-    @meetings.select{|m| Date.today < m.date }.select(&:visible?)
+    criterion = lambda{|m| Date.today < m.date }
+    get_meetings_and_filter(criterion)
   end
 
 #----------
@@ -33,9 +38,12 @@ class ObjectsManager
   def create_meeting(params)
     if find_meeting_by_title(params[:title])
       raise CreationError.new('the title must be unique')
-    end
-    Meeting.new(params).tap do |m|
-      @meetings << m
+    elsif !$session_manager.current_user_admin?
+      raise CreationError.new('not authorized : only an admin can create a Meeting')
+    else
+      Meeting.new(params).tap do |m|
+        @meetings << m
+      end
     end
   rescue CreationError
     nil
@@ -48,6 +56,14 @@ class ObjectsManager
   end
 
 private
+  def get_meetings_and_filter(criterion)
+    if $session_manager.current_user_admin?
+      @meetings.select(&criterion)
+    else
+      @meetings.select(&criterion).select(&:visible?)
+    end
+  end
+
   def find_meeting_by_title(title)
     @meetings.detect{|m| m.title == title}
   end

@@ -7,6 +7,9 @@ Before do
   launch_system_services
 end
 
+TEST_ADMIN = User.new("name","pwd", :admin)
+
+
 def launch_system_services
   $session_manager    = SessionManager.new
   $objects_manager    = ObjectsManager.new

@@ -16,8 +16,18 @@ end
 # Ex: Then I obtain 3 meetings
 Then /^I obtain (no|\d+) (\w+)s?$/ do |expected_size, base_models|
   base_models << 's' unless base_models.end_with?('s')      # talk -> talks
-  eval("@#{base_models}.length").should == expected_size
+  @they = eval("@#{base_models}")
+  @they.length.should == expected_size
 end
+
+
+
+Then /^I obtain (\d+) (\w+)s? with the (\w+)s (.*)$/ do |expected_size, base_model, property, titles|
+  step "I obtain #{expected_size} #{base_model}"
+  titles = titles.split(/\s*,\s*/).collect(&:dequote)
+  @they.collect(&:"#{property}").should == titles
+end
+
 
 
 # Ex: Then the meeting has no talks
@@ -38,6 +48,12 @@ Then /^its (\w+)\s+is (.*)$/ do |property, expected_value|
 
 end
 
+
+Then /^it is a (success|failure)$/ do |outcome|
+  outcome == "success" ?
+    @it.should(be) :
+    @it.should_not( be)
+end
 
 Then /^it is (valid|invalid)$/ do |valid_or_invalid|
   if valid_or_invalid=='valid' && @it.nil?
@@ -76,7 +92,11 @@ Then /^it is (hidden|visible|not visible)$/ do |flag|
     @it.should_not(be_visible)
 end
 
-When /^it is\s+(\w+),(.+)$/ do | arg0, args|
+Then /^it is nil$/ do
+  @it.should_not be
+end
+
+Then /^it is\s+(\w+),(.+)$/ do | arg0, args|
   requirements = "#{arg0},#{args}".split(/,\s*/)
   requirements.each do |req|
     if %w(valid invalid).include?(req)
@@ -90,5 +110,4 @@ When /^it is\s+(\w+),(.+)$/ do | arg0, args|
       raise RuntimeError.new("unknown property : #{req} for #{@it.inspect}")
     end
   end
-
 end

@@ -1,11 +1,17 @@
-Given /^a meeting with those properties:$/ do |table|
+Given /^a meeting is created with those properties:$/ do |table|
   row = table.hashes.first
   @it = create_meeting_from_params(row)
 end
 
+When /^a meeting is created$/ do
+  @it = create_meeting_from_params(valid_meeting_attributes)
+end
+
 Given /^meetings with those properties:$/ do |table|
-  table.hashes.each do |row|
-    create_meeting_from_params(row)
+  $session_manager.as_admin do
+    table.hashes.each do |row|
+      create_meeting_from_params(row)
+    end
   end
 end
 
@@ -40,4 +46,11 @@ private
       row[key] = when_to_date(row.delete(raw_key))
     end
     $objects_manager.create_meeting(row)
+  end
+
+
+  def valid_meeting_attributes
+    @counter ||= 0 ; @counter += 1
+    { :title => "fake-title-#{@counter}"
+    }
   end
