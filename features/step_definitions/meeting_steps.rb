@@ -1,7 +1,7 @@
 # Setup
 ############
 
-When /^I try to create a meeting with (.*), (.*), and (.*)$/ do |title, location, when_|
+When 'I try to create a meeting with $title, $location, and $date' do |title, location, when_|
   @it = begin
     @new_meeting = Handler::Meeting::Creation.new(current_user).create(
         :title    => title,
