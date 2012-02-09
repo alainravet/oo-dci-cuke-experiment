@@ -2,7 +2,11 @@
 revisiting the Arrrrug application the real OO way
 inspired by http://confreaks.com/videos/759-rubymidwest2011-keynote-architecture-the-lost-years
 
-member = logged-in
+Credentials :
+    unauthenticated
+    authenticated
+        :plain
+        :admin
 
 Anybody
 	List future meetings
@@ -10,7 +14,7 @@ Anybody
 	List archived meeting
 	Show 1 meeting public details
 
-Anonymouse
+Anonymous
 	log in with twitter and becomes a member
 
 Admin
