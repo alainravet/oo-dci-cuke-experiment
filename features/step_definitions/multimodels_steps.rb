@@ -57,23 +57,17 @@ end
 
 
 # Ex: Then I have 1 proposal titled "Cucumber for dummies"
-Then 'I have 1 proposal titled "$title"' do |title|
-  proposal = current_user.proposals.detect{|p| p.title==title}
-  unless proposal
-    fail "the current user has no proposal titled #{title.inspect}"
+Then /^I have 1 (talk|proposal) titled "(.*)"/ do |assoc, title|
+  success = current_user.send("#{assoc}s").detect{|p| p.title==title}
+  unless success
+    fail "the current user has no #{assoc} titled #{title.inspect}"
   end
 end
 
-# Ex: Then I have 1 proposal titled "Cucumber for dummies"
-Then 'the meeting has 1 proposal titled "$title"' do |title|
-  unless @meeting.proposals.collect(&:title).include?(title)
-    fail "the current meeting has no proposal titled #{title.inspect}"
-  end
-end
-
-Then 'the meeting has 1 talk titled "$title"' do |title|
-  unless @meeting.talks.collect(&:title).include?(title)
-    fail "the current meeting has no talk titled #{title.inspect}"
+Then /^the meeting has 1 (talk|proposal) titled "(.*)"/ do |assoc, title|
+  success = @meeting.send("#{assoc}s").detect{|p| p.title==title}
+  unless success
+    fail "the current meeting has no #{assoc} titled #{title.inspect}"
   end
 end
 

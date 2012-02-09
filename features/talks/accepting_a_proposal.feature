@@ -35,7 +35,7 @@ Feature: an admin accepts a talk proposal
         * the meeting has 1 talk
         * the meeting has 1 talk titled "my-proposal"
         * I have no proposals
-        * I have 1 talk
+        * I have 1 talk titled "my-proposal"
 
 
 
