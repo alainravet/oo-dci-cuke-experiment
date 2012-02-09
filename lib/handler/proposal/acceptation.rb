@@ -2,6 +2,8 @@ module Handler::Proposal
   class Acceptation < Handler::Base
 
     def accept(proposal)
+      raise_authorization_error_if_not(user_admin?, 'not authorized : only an admin can accept a Proposal')
+
       meeting = proposal.meeting
       author  = proposal.author
       meeting.remove_proposal(proposal)

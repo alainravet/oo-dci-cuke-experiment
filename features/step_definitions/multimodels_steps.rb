@@ -58,8 +58,8 @@ end
 
 # Ex: Then I have 1 proposal titled "Cucumber for dummies"
 Then 'I have 1 proposal titled "$title"' do |title|
-  @proposal = current_user.proposals.detect{|p| p.title==title}
-  unless @proposal
+  proposal = current_user.proposals.detect{|p| p.title==title}
+  unless proposal
     fail "the current user has no proposal titled #{title.inspect}"
   end
 end

@@ -45,9 +45,9 @@ private
       key = raw_key[/_(.+)_/, 1].to_sym # _date_ -> :date
       row[key] = when_to_date(row.delete(raw_key))
     end
-    Handler::Meeting::Creation.new(current_user).create(row)
-  rescue AuthorizationError
-    nil
+    rescue_errors do
+      Handler::Meeting::Creation.new(current_user).create(row)
+    end
   end
 
 

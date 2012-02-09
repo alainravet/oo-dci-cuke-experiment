@@ -36,3 +36,9 @@ Feature: an admin accepts a talk proposal
         * the meeting has 1 talk titled "my-proposal"
         * I have no proposals
         * I have 1 talk
+
+
+
+  Scenario: A plain user cannot accept a proposal
+    When I accept the proposal
+    Then an AuthorizationError is raised

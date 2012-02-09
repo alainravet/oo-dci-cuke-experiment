@@ -2,6 +2,7 @@ Before do
   @today_date = Time.now.to_date
   Timecop.freeze @today_date.to_time
   launch_system_services
+  @errors_raised = []
 end
 
 def launch_system_services

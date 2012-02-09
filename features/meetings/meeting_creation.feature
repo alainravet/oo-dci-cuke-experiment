@@ -8,19 +8,23 @@ Feature: creating meetings
 
 # Authorization
 
+  Scenario: an admin creates a Meeting
+    Given I am authenticated as admin
+     When a meeting is created
+
+     Then it is a success
+      And no AuthorizationError is raised
+
+
   Scenario Outline: Only an admin can create a Meeting
-     #
-     # Only an admin can create a Meeting
-     #
     Given I am authenticated as <role>
-    When a meeting is created
-       * it is a <outcome>
+     When a meeting is created
+     Then an AuthorizationError is raised
 
     Examples:
-      | role  | outcome   |
-      | admin |   success |
-      | plain |   failure |
-      |  anon |   failure |
+      | role  |
+      | plain |
+      |  anon |
 
 
 # Validation
