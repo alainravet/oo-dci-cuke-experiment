@@ -15,24 +15,24 @@ Feature: A User propose to talk at a meeting
 
   Scenario: Situation before making the proposal
         * it was found
-        * it has no proposals
-        * it has no talks
-        * I have no proposals
-
-
-  Scenario: Happy path : making a valid proposal
-     When I make a proposal titled "my-proposal"
-
-     Then the meeting has 1 proposal
-        * the meeting has no talks
-        * I have 1 proposal
-        * the meeting has 1 proposal titled "my-proposal"
-        * I have 1 proposal titled "my-proposal"
-
-
-  Scenario: No duplication (based on the title)
-     When I make a proposal titled "my-proposal"
-      And I make a proposal titled "my-proposal"
-
-     Then the meeting has 1 proposal
-        * I have 1 proposal
+#        * it has no proposals
+#        * it has no talks
+#        * I have no proposals
+#
+#
+#  Scenario: Happy path : making a valid proposal
+#     When I make a proposal titled "my-proposal"
+#
+#     Then the meeting has 1 proposal
+#        * the meeting has no talks
+#        * I have 1 proposal
+#        * the meeting has 1 proposal titled "my-proposal"
+#        * I have 1 proposal titled "my-proposal"
+#
+#
+#  Scenario: No duplication (based on the title)
+#     When I make a proposal titled "my-proposal"
+#      And I make a proposal titled "my-proposal"
+#
+#     Then the meeting has 1 proposal
+#        * I have 1 proposal

@@ -17,16 +17,16 @@ end
 
 When /^I request (all the|all the current|all the past|all the future) meetings$/ do |current_or_past|
   @they = @meetings = case current_or_past
-    when 'all the'          then Handler::Meeting::Retrieval.new(current_user).get_meetings
-    when 'all the past'     then Handler::Meeting::Retrieval.new($session_manager.current_user).get_past_meetings
-    when 'all the current'  then Handler::Meeting::Retrieval.new($session_manager.current_user).get_current_meetings
-    when 'all the future'   then Handler::Meeting::Retrieval.new($session_manager.current_user).get_future_meetings
+    when 'all the'          then Handler::Meeting::Retrieval.new(current_user_credentials).get_meetings
+    when 'all the past'     then Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_past_meetings
+    when 'all the current'  then Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_current_meetings
+    when 'all the future'   then Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_future_meetings
   end
 end
 
 
 Given /^a meeting$/ do
-  @it = @meeting = Handler::Meeting::Retrieval.new($session_manager.current_user).get_meetings.last
+  @it = @meeting = Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_meetings.last
   raise RuntimeError.new("Initialization error : no meeting found") if @meeting.nil?
 end
 
@@ -46,7 +46,7 @@ private
       row[key] = when_to_date(row.delete(raw_key))
     end
     rescue_errors do
-      Handler::Meeting::Creation.new(current_user).create(row)
+      Handler::Meeting::Creation.new(current_user_credentials).create(row)
     end
   end
 

@@ -1,12 +1,16 @@
 class Handler::Base
 
-  def initialize(user)
-    @user = user
+  def initialize(user_or_credentials)
+    @user_credentials = user_or_credentials
   end
 
 
   def user_admin?
-    @user && @user.admin?
+    @user_credentials && @user_credentials.admin?
+  end
+
+  def current_user
+    @user_credentials && @user_credentials.user
   end
 
   def raise_authorization_error_if_not(condition, msg)

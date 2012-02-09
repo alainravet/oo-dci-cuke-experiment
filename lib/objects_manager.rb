@@ -17,8 +17,7 @@ class ObjectsManager
 #----------
 
   def create_meeting(params)
-    Handler::Meeting::Creation.new(current_user).create(params)
+    Handler::Meeting::Creation.new(current_user_credentials).create(params)
   end
-
 
 end

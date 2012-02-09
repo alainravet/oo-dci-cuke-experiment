@@ -10,8 +10,8 @@ def launch_system_services
   $objects_manager    = ObjectsManager.new
   $credentials_manager = CredentialsManager.new
 
-  $credentials_manager.users << User.new('plain-joe', 'secret', :plain)
-  $credentials_manager.users << User.new('admin-jim', 'secret', :admin)
+  $credentials_manager.add_credential_for('plain-joe', 'secret', :plain)
+  $credentials_manager.add_credential_for('admin-jim', 'secret', :admin)
 end
 
 

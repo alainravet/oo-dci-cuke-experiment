@@ -1,16 +1,12 @@
 class User
 
-  attr_reader :name, :password, :rights, :attendances, :proposals, :talks
+  attr_reader :name, :password, :attendances, :proposals, :talks
 
-  def initialize(name, password, rights)
-    @name, @password, @rights = name, password, rights
+  def initialize(name)
+    @name = name
     @attendances = []
     @proposals   = []
     @talks       = []
-  end
-
-  def admin?
-    rights == :admin
   end
 
   def add_attendance(meeting) @attendances << meeting end
