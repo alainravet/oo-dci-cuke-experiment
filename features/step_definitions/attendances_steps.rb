@@ -10,6 +10,7 @@ end
 # Tests :
 #------------
 
+# uses a Transform
 Then /^I am (not registered|registered) to (the meeting titled "[^"]*")$/ do |action, meeting|
   attendance_detected = current_user.attendances.include?(meeting)
   if action == "registered"

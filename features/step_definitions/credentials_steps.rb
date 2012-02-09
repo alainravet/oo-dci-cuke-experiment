@@ -25,8 +25,9 @@ Given /^I am (authenticated as anon|authenticated|authenticated as plain|authent
 end
 
 
-When /^I try to log in with invalid credentials$/ do
-  $session_manager.login('plain-joe', 'invalid password')
+# uses a Transform
+When /^I log in with (valid credentials|invalid credentials)$/ do |credentials|
+  $session_manager.login(*credentials)
 end
 
 When /^I log out$/ do

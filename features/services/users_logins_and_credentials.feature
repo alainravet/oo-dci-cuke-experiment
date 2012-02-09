@@ -9,7 +9,7 @@ Feature: Users logins and credentians
 
 
   Scenario: Failed login (invalid credentials)
-    When I try to log in with invalid credentials
+    When I log in with invalid credentials
     Then nobody is logged in
 
 
