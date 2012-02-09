@@ -58,7 +58,8 @@ end
 
 # Ex: Then I have 1 proposal titled "Cucumber for dummies"
 Then 'I have 1 proposal titled "$title"' do |title|
-  unless current_user.proposals.collect(&:title).include?(title)
+  @proposal = current_user.proposals.detect{|p| p.title==title}
+  unless @proposal
     fail "the current user has no proposal titled #{title.inspect}"
   end
 end
@@ -67,6 +68,12 @@ end
 Then 'the meeting has 1 proposal titled "$title"' do |title|
   unless @meeting.proposals.collect(&:title).include?(title)
     fail "the current meeting has no proposal titled #{title.inspect}"
+  end
+end
+
+Then 'the meeting has 1 talk titled "$title"' do |title|
+  unless @meeting.talks.collect(&:title).include?(title)
+    fail "the current meeting has no talk titled #{title.inspect}"
   end
 end
 

@@ -7,6 +7,7 @@ end
     meeting/creation
     meeting/retrieval
     proposal/creation
+    proposal/acceptation
     talk_creation
     authorization_error
 ).each do |h|

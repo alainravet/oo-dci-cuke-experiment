@@ -28,15 +28,29 @@ class Meeting
   def add_attendee(user); @attendees << user end
   def add_proposal(p)   ; @proposals << p    end
   def add_talk(talk)    ; @talks     << talk end
+
+  def remove_proposal(p); @proposals.delete(p) end
+
 end
 
 class Meeting
+
   class Talk
-  end
-  class Proposal
-    attr_reader :title
-    def initialize(title)
-      @title = title
+    attr_reader :author, :meeting, :title
+    def initialize(author, meeting, title)
+      @author   = author
+      @meeting  = meeting
+      @title    = title
     end
   end
+
+  class Proposal
+    attr_reader :author, :meeting, :title
+    def initialize(author, meeting, title)
+      @author   = author
+      @meeting  = meeting
+      @title    = title
+    end
+  end
+
 end
