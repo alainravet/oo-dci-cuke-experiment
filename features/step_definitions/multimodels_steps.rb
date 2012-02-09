@@ -35,7 +35,7 @@ end
 
 # Ex: Then the meeting has no talks
 # Ex: Then the meeting has 1 talk
-Then /^the (\w+) has (no|\d+) (\w+)s$/ do |base_model, expected_size, assoc|
+Then /^the (\w+) has (no|\d+) (\w+)s?$/ do |base_model, expected_size, assoc|
   assoc << 's' unless assoc.end_with?('s')      # talk -> talks
   eval("@#{base_model}.send(:#{assoc}).length").should == expected_size
 end
@@ -56,6 +56,19 @@ Then /^I have (no|\d+) (\w+)s?$/ do |size, assoc|
 end
 
 
+# Ex: Then I have 1 proposal titled "Cucumber for dummies"
+Then 'I have 1 proposal titled "$title"' do |title|
+  unless current_user.proposals.collect(&:title).include?(title)
+    fail "the current user has no proposal titled #{title.inspect}"
+  end
+end
+
+# Ex: Then I have 1 proposal titled "Cucumber for dummies"
+Then 'the meeting has 1 proposal titled "$title"' do |title|
+  unless @meeting.proposals.collect(&:title).include?(title)
+    fail "the current meeting has no proposal titled #{title.inspect}"
+  end
+end
 
 
 # Ex: Then its title is "meeting 2"

@@ -14,5 +14,5 @@ When 'I try to create a meeting with $title, $location, and $date' do |title, lo
 end
 
 When /^I select the meeting titled "([^"]*)"$/ do |title|
-  @it = Handler::Meeting::Retrieval.new(current_user).find_meeting_by_title(title)
+  @it = @meeting = Handler::Meeting::Retrieval.new(current_user).find_meeting_by_title(title)
 end
