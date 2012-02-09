@@ -10,8 +10,8 @@ end
 # Tests :
 #------------
 
-Then /^I am (not registered|registered) to the meeting titled "([^"]*)"$/ do |action, title|
-  attendance_detected = current_user.attendances.any?{|m| m.title==title }
+Then /^I am (not registered|registered) to (the meeting titled "[^"]*")$/ do |action, meeting|
+  attendance_detected = current_user.attendances.include?(meeting)
   if action == "registered"
     fail "current user is NOT registered to the meeting titled '#{title}'" unless attendance_detected
   else
