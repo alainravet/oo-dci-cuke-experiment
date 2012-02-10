@@ -12,7 +12,6 @@ def launch_system_services
   App.credentials_manager.add_credential_for('admin-jim', 'secret', :admin)
 end
 
-
 #After do |scenario|
 # if(scenario.failed?)
 #    subject = "[Project X] #{scenario.exception.message}"

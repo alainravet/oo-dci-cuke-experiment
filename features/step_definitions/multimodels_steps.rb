@@ -6,11 +6,11 @@
 #------------
 
 When /^it was found$/ do
-  @it.should be
+  c_it.should be
 end
 
 When /^it was not found$/ do
-  @it.should_not be
+  c_it.should_not be
 end
 
 
@@ -19,16 +19,16 @@ end
 # Ex: Then I obtain 3 meetings
 Then /^I obtain (no|\d+) (\w+)s?$/ do |expected_size, base_models|
   base_models << 's' unless base_models.end_with?('s')      # talk -> talks
-  @they = eval("@#{base_models}")
-  @they.length.should == expected_size
+  cache_get(base_models).length.should == expected_size
 end
 
 
 
-Then /^I obtain (\d+) (\w+)s? with the (\w+)s (.*)$/ do |expected_size, base_model, property, titles|
-  step "I obtain #{expected_size} #{base_model}"
+Then /^I obtain (\d+) (\w+)s? with the (\w+)s (.*)$/ do |expected_size, base_models, property, titles|
+  base_models << 's' unless base_models.end_with?('s')      # talk -> talks
+  step "I obtain #{expected_size} #{base_models}"
   titles = titles.split(/\s*,\s*/).collect(&:dequote)
-  @they.collect(&:"#{property}").should == titles
+  cache_get(base_models).collect(&:"#{property}").should == titles
 end
 
 
@@ -37,14 +37,14 @@ end
 # Ex: Then the meeting has 1 talk
 Then /^the (\w+) has (no|\d+) (\w+)s?$/ do |base_model, expected_size, assoc|
   assoc << 's' unless assoc.end_with?('s')      # talk -> talks
-  eval("@#{base_model}.send(:#{assoc}).length").should == expected_size
+  eval("cache_get(:#{base_model}).send(:#{assoc}).length").should == expected_size
 end
 
 # Ex: Then it has 1 talk
 # Ex: Then it has no attendees
 Then /^it has (no|\d+) (\w+)s?$/ do |size, assoc|
   assoc << 's' unless assoc.end_with?('s')      # talk -> talks
-  @it.send("#{assoc}").size.should == size
+  c_it.send("#{assoc}").size.should == size
 end
 
 # Ex: Then I have 1 attendance
@@ -65,7 +65,7 @@ Then /^I have 1 (talk|proposal) titled "(.*)"/ do |assoc, title|
 end
 
 Then /^the meeting has 1 (talk|proposal) titled "(.*)"/ do |assoc, title|
-  success = @meeting.send("#{assoc}s").detect{|p| p.title==title}
+  success = cache_get(:meeting).send("#{assoc}s").detect{|p| p.title==title}
   unless success
     fail "the current meeting has no #{assoc} titled #{title.inspect}"
   end
@@ -78,56 +78,34 @@ Then /^its (\w+)\s+is (.*)$/ do |property, expected_value|
   if %w(date).include?(property)
     expected = when_to_date(expected_value)
   end
-  @it.send(property).should == expected_value.dequote
+  c_it.send(property).should == expected_value.dequote
 
 end
 
 
 Then /^it is a (success|failure)$/ do |outcome|
   outcome == "success" ?
-    @it.should(be) :
-    @it.should_not( be)
+    c_it.should(be) :
+    c_it.should_not( be)
 end
 
 Then /^it is (valid|invalid)$/ do |valid_or_invalid|
-  if valid_or_invalid=='valid' && @it.nil?
+  if valid_or_invalid=='valid' && c_it.nil?
     fail 'the object could not created'
-  elsif valid_or_invalid=='invalid' && @it
-    fail "the object should not have been created #{@it.inspect}" if @it
+  elsif valid_or_invalid=='invalid' && c_it
+    fail "the object should not have been created #{c_it.inspect}" if c_it
   end
 end
 
-
-# Ex: And their properties are:
-#         | title     |      _date_  |
-#         | meeting 0 |    yesterday |
-#         | meeting 1 |        today |
-Then /^their properties are:$/ do |table|
-  unless @they.length == table.hashes.length
-    fail "wrong number of records : got #{table.hashes.length} but expected #{the_meetings.length}"
-  end
-  @they.each_with_index do |m, i|
-    hash = table.hashes[i]
-    hash.keys.each do |k|
-      expected_value = hash[k]
-      if k =~ /^_.+_$/
-        key = k[/_(.+)_/,1].to_sym    # _date_ -> :date
-        m.send(key).should == when_to_date(expected_value)
-      else
-        m.send(k).should == expected_value
-      end
-    end
-  end
-end
 
 Then /^it is (hidden|visible|not visible)$/ do |flag|
   flag=='visible' ?
-    @it.should(be_visible) :
-    @it.should_not(be_visible)
+    c_it.should(be_visible) :
+    c_it.should_not(be_visible)
 end
 
 Then /^it is nil$/ do
-  @it.should_not be
+  c_it.should_not be
 end
 
 Then /^it is\s+(\w+),(.+)$/ do | arg0, args|
@@ -136,12 +114,12 @@ Then /^it is\s+(\w+),(.+)$/ do | arg0, args|
     if %w(valid invalid).include?(req)
       step "it is #{req}"
 
-    elsif @it.respond_to?(req)
-      fail "the record should be #{req}" unless @it.send(req)
-    elsif @it.respond_to?("#{req}?")
-      fail "the record should be #{req}" unless @it.send("#{req}?")
+    elsif c_it.respond_to?(req)
+      fail "the record should be #{req}" unless c_it.send(req)
+    elsif c_it.respond_to?("#{req}?")
+      fail "the record should be #{req}" unless c_it.send("#{req}?")
     else
-      raise RuntimeError.new("unknown property : #{req} for #{@it.inspect}")
+      raise RuntimeError.new("unknown property : #{req} for #{c_it.inspect}")
     end
   end
 end

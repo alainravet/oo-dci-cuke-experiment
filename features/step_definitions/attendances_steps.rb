@@ -3,7 +3,7 @@
 
 
 When /^I register for the meeting$/ do
-  Handler::Registration.new(current_user_credentials).register_for(@it)
+  Handler::Registration.new(current_user_credentials).register_for(cache_get(:meeting))
 end
 
 
