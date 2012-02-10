@@ -3,7 +3,7 @@
 #---------
 
 Given /^I am not authenticated$/ do
-  $session_manager.logout if current_user_credentials
+  App.session_manager.logout if current_user_credentials
 end
 
 When /^I log in with valid :(plain|admin) user credentials$/ do |level|
@@ -11,7 +11,7 @@ When /^I log in with valid :(plain|admin) user credentials$/ do |level|
                 when :plain   then ['plain-joe', 'secret']
                 when :admin   then ['admin-jim', 'secret']
               end
-  $session_manager.login(name, pwd)
+  App.session_manager.login(name, pwd)
 end
 
 Given /^I am (authenticated as anon|authenticated|authenticated as plain|authenticated as admin)$/ do |action|
@@ -27,11 +27,11 @@ end
 
 # uses a Transform
 When /^I log in with (valid credentials|invalid credentials)$/ do |credentials|
-  $session_manager.login(*credentials)
+  App.session_manager.login(*credentials)
 end
 
 When /^I log out$/ do
-  $session_manager.logout
+  App.session_manager.logout
 end
 
 
@@ -56,6 +56,6 @@ Then /^(?:my|the current) user rights are :(admin|plain)$/ do |expected_rights|
 end
 
 When /^(\d+) users?\s+(?:has|have)\s+:(plain|admin) credentials$/ do |nof_users, expected_rights|
-  users = $credentials_manager.credentials.select {|u| u.rights == expected_rights.to_sym}.collect(&:user)
+  users = App.credentials_manager.credentials.select {|u| u.rights == expected_rights.to_sym}.collect(&:user)
   users.size.should == nof_users
 end

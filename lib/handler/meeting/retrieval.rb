@@ -44,7 +44,7 @@ module Handler::Meeting
     end
 
     def meetings
-      $objects_manager.meetings
+      App.objects_manager.meetings
     end
   end
 end

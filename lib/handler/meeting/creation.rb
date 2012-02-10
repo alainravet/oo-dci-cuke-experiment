@@ -10,7 +10,7 @@ module Handler::Meeting
       raise_creation_error_if(already_exists, 'the title must be unique')
 
       Meeting.new(params).tap do |m|
-        $objects_manager.add_meeting(m)
+        App.objects_manager.add_meeting(m)
       end
     end
 

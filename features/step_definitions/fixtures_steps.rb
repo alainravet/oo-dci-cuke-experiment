@@ -8,7 +8,7 @@ When /^a meeting is created$/ do
 end
 
 Given /^meetings with those properties:$/ do |table|
-  $session_manager.as_admin do
+  App.session_manager.as_admin do
     table.hashes.each do |row|
       create_meeting_from_params(row)
     end
@@ -18,15 +18,15 @@ end
 When /^I request (all the|all the current|all the past|all the future) meetings$/ do |current_or_past|
   @they = @meetings = case current_or_past
     when 'all the'          then Handler::Meeting::Retrieval.new(current_user_credentials).get_meetings
-    when 'all the past'     then Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_past_meetings
-    when 'all the current'  then Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_current_meetings
-    when 'all the future'   then Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_future_meetings
+    when 'all the past'     then Handler::Meeting::Retrieval.new(App.session_manager.current_user_credentials).get_past_meetings
+    when 'all the current'  then Handler::Meeting::Retrieval.new(App.session_manager.current_user_credentials).get_current_meetings
+    when 'all the future'   then Handler::Meeting::Retrieval.new(App.session_manager.current_user_credentials).get_future_meetings
   end
 end
 
 
 Given /^a meeting$/ do
-  @it = @meeting = Handler::Meeting::Retrieval.new($session_manager.current_user_credentials).get_meetings.last
+  @it = @meeting = Handler::Meeting::Retrieval.new(App.session_manager.current_user_credentials).get_meetings.last
   raise RuntimeError.new("Initialization error : no meeting found") if @meeting.nil?
 end
 

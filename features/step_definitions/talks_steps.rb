@@ -12,7 +12,7 @@ When 'I make a proposal titled "$title"' do |title|
 end
 
 When /^(I|an admin) accepts? the proposal$/ do |who|
-  acceptor = who=='I' ? current_user_credentials : $credentials_manager.get_test_admin_creds
+  acceptor = who=='I' ? current_user_credentials : App.credentials_manager.get_test_admin_creds
   @talk = rescue_errors do
             Handler::Proposal::Acceptation.new(acceptor).accept(@proposal)
           end

@@ -6,12 +6,10 @@ Before do
 end
 
 def launch_system_services
-  $session_manager    = SessionManager.new
-  $objects_manager    = ObjectsManager.new
-  $credentials_manager = CredentialsManager.new
+  App.start_services
 
-  $credentials_manager.add_credential_for('plain-joe', 'secret', :plain)
-  $credentials_manager.add_credential_for('admin-jim', 'secret', :admin)
+  App.credentials_manager.add_credential_for('plain-joe', 'secret', :plain)
+  App.credentials_manager.add_credential_for('admin-jim', 'secret', :admin)
 end
 
 

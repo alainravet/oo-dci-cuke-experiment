@@ -1,5 +1,5 @@
 def current_user_credentials
-  $session_manager.current_user_credentials
+  App.session_manager.current_user_credentials
 end
 
 def current_user

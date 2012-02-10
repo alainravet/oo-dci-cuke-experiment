@@ -16,7 +16,7 @@ class SessionManager
 
   def as_admin
     prev_cred = @current_user_credentials
-    @current_user_credentials = $credentials_manager.get_test_admin_creds
+    @current_user_credentials = App.credentials_manager.get_test_admin_creds
     yield
     @current_user_credentials = prev_cred
   end
