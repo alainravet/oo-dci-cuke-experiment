@@ -1,6 +1,4 @@
-require_relative 'meeting'
-
-class ObjectsManager < Container::Base
+class ObjectsManager < Model::Base
 
   class CreationError < RuntimeError ; end
 

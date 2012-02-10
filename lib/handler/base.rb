@@ -1,11 +1,11 @@
 class Handler::Base
 
-  def initialize(user_or_credentials)
-    @user_credentials = user_or_credentials
+  def initialize(user_credentials)
+    @user_credentials = user_credentials
   end
 
 
-  def user_admin?
+  def current_user_admin?
     @user_credentials && @user_credentials.admin?
   end
 
@@ -13,23 +13,23 @@ class Handler::Base
     @user_credentials && @user_credentials.user
   end
 
-  def raise_authorization_error_if_not(condition, msg)
-    return if condition
+  def raise_authorization_error_if_not(ok_condition, msg)
+    return if ok_condition
     raise ::AuthorizationError.new(msg)
   end
 
-  def raise_authorization_error_if(condition, msg)
-    return unless condition
+  def raise_authorization_error_if(fail_condition, msg)
+    return unless fail_condition
     raise ::AuthorizationError.new(msg)
   end
 
-  def raise_creation_error_if_not(condition, msg)
-    return if condition
+  def raise_creation_error_if_not(ok_condition, msg)
+    return if ok_condition
     raise ObjectsManager::CreationError.new(msg)
   end
 
-  def raise_creation_error_if(condition, msg)
-    return unless condition
+  def raise_creation_error_if(fail_condition, msg)
+    return unless fail_condition
     raise ObjectsManager::CreationError.new(msg)
   end
 

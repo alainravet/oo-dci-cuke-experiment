@@ -1,4 +1,4 @@
-module Container
+module Model
 
   class Base
 

@@ -2,7 +2,7 @@ module Handler::Meeting
   class Retrieval < Handler::Base
 
     def get_meetings
-      user_admin? ?
+      current_user_admin? ?
         meetings :
         meetings.select(&:visible?)
     end
@@ -30,7 +30,7 @@ module Handler::Meeting
   private
 
     def find_all_meetings_and_filter(criterion)
-      user_admin? ?
+      current_user_admin? ?
         meetings.select(&criterion) :
         meetings.select(&criterion).select(&:visible?)
     end
@@ -39,7 +39,7 @@ module Handler::Meeting
     def find_meeting_and_filter(criterion)
       meetings.detect(&criterion).tap do |m|
         return if m.nil?
-        return unless m.visible? || user_admin?
+        return unless m.visible? || current_user_admin?
       end
     end
 

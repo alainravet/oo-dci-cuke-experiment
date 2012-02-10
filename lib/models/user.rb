@@ -1,4 +1,4 @@
-class User < Container::Base
+class User < Model::Base
 
   attr_reader :name, :password
 

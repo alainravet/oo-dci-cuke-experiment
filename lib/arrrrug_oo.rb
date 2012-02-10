@@ -1,12 +1,8 @@
-require_relative 'container/container'
-require_relative 'meeting'
-require_relative 'talk'
-require_relative 'proposal'
-require_relative 'objects_manager'
-require_relative 'session_manager'
-require_relative 'credentials_manager'
-require_relative 'meeting'
-require_relative 'user'
-require_relative 'credential'
+%w{
+  support/_support
+  lib/_lib
+  models/_models
+  handler/_handler
+  services/_services
 
-require_relative 'handler/handler'
+}.each {|file| require_relative file}

@@ -1,6 +1,4 @@
-require_relative 'support/support'
-
-class Meeting < Container::Base
+class Meeting < Model::Base
   attr_reader :title, :date, :location, :hidden
 
   def initialize(params)

@@ -9,7 +9,6 @@ end
     proposal/creation
     proposal/acceptation
     talk/creation
-    authorization_error
 ).each do |h|
   require_relative(h)
 end
