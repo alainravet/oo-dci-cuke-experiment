@@ -1,4 +1,6 @@
 require_relative 'meeting'
+require_relative 'talk'
+require_relative 'proposal'
 require_relative 'objects_manager'
 require_relative 'session_manager'
 require_relative 'credentials_manager'

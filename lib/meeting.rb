@@ -32,25 +32,3 @@ class Meeting
   def remove_proposal(p); @proposals.delete(p) end
 
 end
-
-class Meeting
-
-  class Talk
-    attr_reader :author, :meeting, :title
-    def initialize(author, meeting, title)
-      @author   = author
-      @meeting  = meeting
-      @title    = title
-    end
-  end
-
-  class Proposal
-    attr_reader :author, :meeting, :title
-    def initialize(author, meeting, title)
-      @author   = author
-      @meeting  = meeting
-      @title    = title
-    end
-  end
-
-end

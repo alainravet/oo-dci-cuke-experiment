@@ -4,7 +4,7 @@
 
 When 'I add a talk to it titled "$title"' do |title|
   author = current_user
-  Handler::TalkCreation.new(current_user_credentials).create(author, @it, title)
+  Handler::Talk::Creation.new(current_user_credentials).create(author, @it, title)
 end
 
 When 'I make a proposal titled "$title"' do |title|

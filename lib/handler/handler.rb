@@ -8,7 +8,7 @@ end
     meeting/retrieval
     proposal/creation
     proposal/acceptation
-    talk_creation
+    talk/creation
     authorization_error
 ).each do |h|
   require_relative(h)

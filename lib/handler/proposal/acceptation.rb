@@ -9,7 +9,7 @@ module Handler::Proposal
       meeting.remove_proposal(proposal)
       author .remove_proposal(proposal)
 
-      Handler::TalkCreation.new(@user_credentials).create(author, meeting, proposal.title)
+      Handler::Talk::Creation.new(@user_credentials).create(author, meeting, proposal.title)
     end
 
   end
