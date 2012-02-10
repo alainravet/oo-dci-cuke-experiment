@@ -1,18 +1,11 @@
-class User
+class User < Container::Base
 
-  attr_reader :name, :password, :attendances, :proposals, :talks
+  attr_reader :name, :password
 
   def initialize(name)
     @name = name
-    @attendances = []
-    @proposals   = []
-    @talks       = []
   end
 
-  def add_attendance(meeting) @attendances << meeting end
-  def add_proposal(p)         @proposals << p         end
-  def add_talk(t)             @talks << t             end
-
-  def remove_proposal(p);     @proposals.delete(p)    end
+  has_many :talks, :proposals, :attendances
 
 end

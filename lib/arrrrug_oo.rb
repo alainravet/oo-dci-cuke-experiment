@@ -1,3 +1,4 @@
+require_relative 'container/container'
 require_relative 'meeting'
 require_relative 'talk'
 require_relative 'proposal'

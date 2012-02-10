@@ -1,7 +1,7 @@
 require_relative 'support/support'
 
-class Meeting
-  attr_reader :title, :date, :location, :hidden, :attendees, :talks, :proposals
+class Meeting < Container::Base
+  attr_reader :title, :date, :location, :hidden
 
   def initialize(params)
     raise ObjectsManager::CreationError if params[:title].nil_or_blank?
@@ -12,10 +12,9 @@ class Meeting
     unless params.keys.empty?
       raise ObjectsManager::CreationError.new("invalid meeting properties : #{params.inspect}")
     end
-    @talks = []
-    @attendees = []
-    @proposals = []
   end
+
+  has_many :talks, :proposals, :attendees
 
   def visible?
     !@hidden
@@ -24,11 +23,5 @@ class Meeting
   def past?
     date < Time.now.to_date
   end
-
-  def add_attendee(user); @attendees << user end
-  def add_proposal(p)   ; @proposals << p    end
-  def add_talk(talk)    ; @talks     << talk end
-
-  def remove_proposal(p); @proposals.delete(p) end
 
 end
